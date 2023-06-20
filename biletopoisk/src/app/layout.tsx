@@ -1,3 +1,4 @@
+import { Navbar } from '@/components/Navbar'
 import './globals.css'
 import { Inter } from 'next/font/google'
 
@@ -15,7 +16,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+      <Navbar />
+      <body className={inter.className} style={{ marginTop: '5rem' }}>{children}</body>
+    </html >
   )
 }
