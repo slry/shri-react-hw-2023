@@ -1,5 +1,13 @@
 'use client';
-import { FunctionComponent, PropsWithChildren, useState } from 'react';
+import {
+	FunctionComponent,
+	PropsWithChildren,
+	createRef,
+	forwardRef,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import styles from './UIDropdownSelect.module.css';
 import dropdownIcon from '../../../../public/dropdown.svg';
 import Image from 'next/image';
@@ -24,6 +32,25 @@ export const UIDropdownSelect: FunctionComponent<UIDropdownSelectProps> = ({
 	const [open, setOpen] = useState(false);
 	const [selected, setSelected] = useState(placeholder);
 
+	let menuRef = useRef<HTMLUListElement>(null);
+	let buttonRef = useRef<HTMLButtonElement>(null);
+
+	useEffect(() => {
+		let handler = (e: MouseEvent) => {
+			if (
+				!menuRef.current?.contains(e.target as Node) &&
+				!buttonRef.current?.contains(e.target as Node)
+			)
+				setOpen(false);
+		};
+
+		document.addEventListener('mousedown', handler);
+
+		return () => {
+			document.removeEventListener('mousedown', handler);
+		};
+	}, []);
+
 	const categories = Array.from({ length: 10 }, (_, i) => i + 1).map((i) => (
 		<DropdownListOption
 			key={`option-${i}`}
@@ -33,6 +60,7 @@ export const UIDropdownSelect: FunctionComponent<UIDropdownSelectProps> = ({
 			isDefault={i === 1}
 		/>
 	));
+
 	return (
 		<div className={styles.wrap}>
 			<span className={styles.title}>{title}</span>
@@ -43,18 +71,21 @@ export const UIDropdownSelect: FunctionComponent<UIDropdownSelectProps> = ({
 					selected !== placeholder ? styles.selected : ''
 				)}
 				onClick={() => setOpen(!open)}
+				ref={buttonRef}
 			>
 				<span className={styles.dropdownPlaceholder}>{selected}</span>
 				<Image src={dropdownIcon} alt="dropdown" />
-				{open && <DropdownList>{categories}</DropdownList>}
+				{open && <DropdownList ref={menuRef}>{categories}</DropdownList>}
 			</button>
 		</div>
 	);
 };
 
-const DropdownList: FunctionComponent<PropsWithChildren> = ({ children }) => {
-	return <ul className={styles.dropdownList}>{children}</ul>;
-};
+const DropdownList = forwardRef<HTMLUListElement, PropsWithChildren>(({ children }, ref) => (
+	<ul className={styles.dropdownList} ref={ref}>
+		{children}
+	</ul>
+));
 
 const DropdownListOption: FunctionComponent<DropdownListOptionProps> = ({
 	categoryName,
