@@ -1,0 +1,42 @@
+.ticket {
+	display: flex;
+	justify-content: space-between;
+	padding: 1.5rem;
+	background: white;
+	border-radius: 8px;
+}
+
+.ticketCard {
+	display: flex;
+	gap: 1.5rem;
+}
+
+.ticketInfo {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.category {
+	font-style: italic;
+	font-weight: 400;
+}
+
+.ticketBtns {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-self: flex-start;
+	gap: 1.734375rem;
+}
+
+.deleteBtn {
+	margin: 0;
+	outline: none;
+	border: none;
+	background: none;
+	cursor: pointer;
+
+	width: 12.5px;
+	height: 12.5px;
+}
