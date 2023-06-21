@@ -1,3 +1,5 @@
+'use client';
+
 import useControlledInput from '@/hooks/useControlledInput'
 import styles from './UIInput.module.css'
 import { FunctionComponent, InputHTMLAttributes } from 'react';
