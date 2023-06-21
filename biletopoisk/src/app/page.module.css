@@ -1,0 +1,8 @@
+.home {
+	display: flex;
+	min-height: 90vh;
+	justify-content: space-between;
+	padding: 1.5rem 2rem;
+	background: var(--bg-primary);
+	gap: 23px;
+}

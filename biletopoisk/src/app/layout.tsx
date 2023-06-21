@@ -11,7 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="en">
 			<body>
 				<Navbar />
-				<main style={{ marginTop: '5rem' }}>{children}</main>
+				<main>{children}</main>
 			</body>
 		</html>
 	);
