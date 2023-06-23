@@ -12,6 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			<body>
 				<Navbar />
 				<main>{children}</main>
+				<div id="modal-root"></div>
 			</body>
 		</html>
 	);

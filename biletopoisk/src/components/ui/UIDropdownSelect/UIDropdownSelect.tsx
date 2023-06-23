@@ -1,17 +1,10 @@
 'use client';
-import {
-	FunctionComponent,
-	PropsWithChildren,
-	createRef,
-	forwardRef,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+import { FunctionComponent, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import styles from './UIDropdownSelect.module.css';
 import dropdownIcon from '../../../../public/dropdown.svg';
 import Image from 'next/image';
 import classNames from 'classnames';
+import { createPortal } from 'react-dom';
 
 type UIDropdownSelectProps = {
 	placeholder: string;
@@ -25,6 +18,11 @@ type DropdownListOptionProps = {
 	isDefault?: boolean;
 };
 
+type DropdownListProps = {
+	setOpen: (open: boolean) => void;
+	buttonRef: React.RefObject<HTMLButtonElement>;
+};
+
 export const UIDropdownSelect: FunctionComponent<UIDropdownSelectProps> = ({
 	placeholder,
 	title,
@@ -32,24 +30,7 @@ export const UIDropdownSelect: FunctionComponent<UIDropdownSelectProps> = ({
 	const [open, setOpen] = useState(false);
 	const [selected, setSelected] = useState(placeholder);
 
-	let menuRef = useRef<HTMLUListElement>(null);
-	let buttonRef = useRef<HTMLButtonElement>(null);
-
-	useEffect(() => {
-		let handler = (e: MouseEvent) => {
-			if (
-				!menuRef.current?.contains(e.target as Node) &&
-				!buttonRef.current?.contains(e.target as Node)
-			)
-				setOpen(false);
-		};
-
-		document.addEventListener('mousedown', handler);
-
-		return () => {
-			document.removeEventListener('mousedown', handler);
-		};
-	}, []);
+	const buttonRef = useRef<HTMLButtonElement>(null);
 
 	const categories = Array.from({ length: 10 }, (_, i) => i + 1).map((i) => (
 		<DropdownListOption
@@ -75,17 +56,46 @@ export const UIDropdownSelect: FunctionComponent<UIDropdownSelectProps> = ({
 			>
 				<span className={styles.dropdownPlaceholder}>{selected}</span>
 				<Image src={dropdownIcon} alt="dropdown" />
-				{open && <DropdownList ref={menuRef}>{categories}</DropdownList>}
+				{open &&
+					createPortal(
+						<DropdownList setOpen={setOpen} buttonRef={buttonRef}>
+							{categories}
+						</DropdownList>,
+						document.getElementById('modal-root') as HTMLElement
+					)}
 			</button>
 		</div>
 	);
 };
 
-const DropdownList = forwardRef<HTMLUListElement, PropsWithChildren>(({ children }, ref) => (
-	<ul className={styles.dropdownList} ref={ref}>
-		{children}
-	</ul>
-));
+const DropdownList: FunctionComponent<PropsWithChildren<DropdownListProps>> = ({
+	children,
+	setOpen,
+	buttonRef,
+}) => {
+	const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
+
+	useEffect(() => {
+		const { top, left } = buttonRef.current?.getBoundingClientRect() as DOMRect;
+		const buttonWidth = buttonRef.current?.offsetWidth as number;
+		const buttonHeight = buttonRef.current?.offsetHeight as number;
+		setPosition({ top: top + buttonHeight + 4, left, width: buttonWidth });
+	}, [buttonRef]);
+
+	return (
+		<div className={styles.dropdownListWrapper} onClick={(_) => setOpen(false)}>
+			{position.width !== 0 && (
+				<ul
+					className={styles.dropdownList}
+					onClick={(e) => e.stopPropagation()}
+					style={{ top: position.top, left: position.left, width: position.width }}
+				>
+					{children}
+				</ul>
+			)}
+		</div>
+	);
+};
 
 const DropdownListOption: FunctionComponent<DropdownListOptionProps> = ({
 	categoryName,
