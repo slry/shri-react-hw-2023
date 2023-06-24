@@ -1,7 +1,14 @@
 'use client';
-import { FunctionComponent, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import {
+	FunctionComponent,
+	PropsWithChildren,
+	RefObject,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import styles from './UIDropdownSelect.module.css';
-import dropdownIcon from '../../../../public/dropdown.svg';
+import dropdownIcon from '/public/dropdown.svg';
 import Image from 'next/image';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
@@ -9,6 +16,8 @@ import { createPortal } from 'react-dom';
 type UIDropdownSelectProps = {
 	placeholder: string;
 	title: string;
+	getOption?: (option: string) => void;
+	options: string[];
 };
 
 type DropdownListOptionProps = {
@@ -20,27 +29,52 @@ type DropdownListOptionProps = {
 
 type DropdownListProps = {
 	setOpen: (open: boolean) => void;
-	buttonRef: React.RefObject<HTMLButtonElement>;
+	buttonRef: RefObject<HTMLButtonElement>;
 };
 
 export const UIDropdownSelect: FunctionComponent<UIDropdownSelectProps> = ({
 	placeholder,
 	title,
+	getOption,
+	options,
 }) => {
 	const [open, setOpen] = useState(false);
 	const [selected, setSelected] = useState(placeholder);
+	const [categories, setCategories] = useState<React.ReactNode[]>([
+		<DropdownListOption
+			key={placeholder}
+			categoryName={placeholder}
+			setSelected={setSelected}
+			setOpen={setOpen}
+			isDefault={true}
+		/>,
+	]);
+
+	useEffect(() => {
+		if (getOption) getOption(selected !== placeholder ? selected : '');
+	}, [selected]);
+
+	useEffect(() => {
+		setCategories([
+			<DropdownListOption
+				key={placeholder}
+				categoryName={placeholder}
+				setSelected={setSelected}
+				setOpen={setOpen}
+				isDefault={true}
+			/>,
+			...options.map((option) => (
+				<DropdownListOption
+					key={option}
+					categoryName={option}
+					setSelected={setSelected}
+					setOpen={setOpen}
+				/>
+			)),
+		]);
+	}, [options]);
 
 	const buttonRef = useRef<HTMLButtonElement>(null);
-
-	const categories = Array.from({ length: 10 }, (_, i) => i + 1).map((i) => (
-		<DropdownListOption
-			key={`option-${i}`}
-			categoryName={i === 1 ? placeholder : `Категория ${i}`}
-			setOpen={setOpen}
-			setSelected={setSelected}
-			isDefault={i === 1}
-		/>
-	));
 
 	return (
 		<div className={styles.wrap}>
