@@ -7,4 +7,14 @@ module.exports = {
 			destination: 'http://localhost:3001/api/:path*',
 		},
 	],
+
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'i.postimg.cc',
+				port: '',
+			},
+		],
+	},
 };
