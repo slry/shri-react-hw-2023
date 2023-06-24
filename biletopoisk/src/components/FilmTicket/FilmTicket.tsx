@@ -18,8 +18,8 @@ type DeleteButtonProps = {
 export const FilmTicket: FunctionComponent<FilmTicketProps> = ({ film, inBasket }) => {
 	const { posterUrl, title, genre, id } = film;
 	return (
-		<Link className={styles.ticket} href={`/film/${id}`}>
-			<div className={styles.ticketCard}>
+		<div className={styles.ticket}>
+			<Link className={styles.ticketCard} href={`/film/${id}`}>
 				<Image
 					src={posterUrl}
 					alt={'poster'}
@@ -31,12 +31,12 @@ export const FilmTicket: FunctionComponent<FilmTicketProps> = ({ film, inBasket 
 					<h3>{title}</h3>
 					<span className={styles.category}>{genre}</span>
 				</div>
-			</div>
-			<div className={styles.ticketBtns} onClick={(e) => e.preventDefault()}>
+			</Link>
+			<div className={styles.ticketBtns}>
 				<UICounter filmId={id} />
 				{inBasket && <DeleteButton onClick={() => {}} />}
 			</div>
-		</Link>
+		</div>
 	);
 };
 
