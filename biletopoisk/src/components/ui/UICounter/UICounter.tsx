@@ -19,7 +19,7 @@ export const UICounter: FunctionComponent<UICounterProps> = ({ filmId }) => {
 	};
 
 	const handlePlus = () => {
-		setCount(count + 1);
+		if (count < 30) setCount(count + 1);
 	};
 
 	useEffect(() => {
@@ -40,7 +40,10 @@ export const UICounter: FunctionComponent<UICounterProps> = ({ filmId }) => {
 				<Image src={minus} alt={'minus'} width={9} height={9} />
 			</button>
 			<span className={styles.count}>{count}</span>
-			<button className={styles.btn} onClick={handlePlus}>
+			<button
+				className={classNames(styles.btn, count >= 30 ? styles.disabled : '')}
+				onClick={handlePlus}
+			>
 				<Image src={plus} alt={'plus'} width={9} height={9} />
 			</button>
 		</div>
