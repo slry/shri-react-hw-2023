@@ -1,0 +1,17 @@
+.footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1.5rem 2rem;
+	background-color: var(--primary);
+}
+
+.qna,
+.aboutUs {
+	border: none;
+	outline: none;
+	background: none;
+	color: white;
+	font-size: 1.25rem;
+	font-weight: 400;
+}

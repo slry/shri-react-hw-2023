@@ -1,6 +1,6 @@
 .home {
 	display: flex;
-	min-height: 90vh;
+	min-height: calc(100vh - 4.25rem - 3px);
 	justify-content: space-between;
 	padding: 1.5rem 2rem;
 	background: var(--bg-primary);
