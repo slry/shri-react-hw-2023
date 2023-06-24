@@ -1,6 +1,7 @@
 import { Navbar } from '@/components/Navbar';
 import './globals.css';
 import { Footer } from '@/components/Footer';
+import { DataProvider } from '@/components/DataProvider';
 
 export const metadata = {
 	title: 'Create Next App',
@@ -11,10 +12,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="en">
 			<body>
-				<Navbar />
-				<main>{children}</main>
+				<DataProvider>
+					<Navbar />
+					<main>{children}</main>
+					<Footer />
+				</DataProvider>
 				<div id="modal-root"></div>
-				<Footer />
 			</body>
 		</html>
 	);
