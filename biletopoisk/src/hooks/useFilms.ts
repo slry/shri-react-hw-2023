@@ -1,4 +1,5 @@
 import { Film } from '@/contexts/FilmsContext';
+import { translateGenre } from '@/utils/translateGenre';
 import { useEffect, useState } from 'react';
 
 export const useFilms = () => {
@@ -22,7 +23,18 @@ export const useFilms = () => {
 	};
 
 	useEffect(() => {
-		fetchFilms().then((films) => setInitialFilms(films));
+		fetchFilms().then((films) => {
+			setInitialFilms(
+				films.map((film) => {
+					const translatedFilm = {
+						...film,
+						genre: translateGenre(film.genre),
+					};
+
+					return translatedFilm;
+				})
+			);
+		});
 	}, []);
 
 	return { initialFilms };
