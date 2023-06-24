@@ -1,14 +1,13 @@
-'use client';
 import Image from 'next/image';
 import styles from './FilmTicket.module.css';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
 import { UICounter } from '../ui/UICounter';
 import deleteIcon from '../../../public/delete.svg';
+import { Film } from '@/contexts/FilmsContext';
+import Link from 'next/link';
 
 type FilmTicketProps = {
-	filmName: string;
-	categoryName: string;
-	posterUrl: string;
+	film: Film;
 	inBasket?: boolean;
 };
 
@@ -16,15 +15,10 @@ type DeleteButtonProps = {
 	onClick: () => void;
 };
 
-export const FilmTicket: FunctionComponent<FilmTicketProps> = ({
-	filmName,
-	categoryName,
-	posterUrl,
-	inBasket,
-}) => {
-	const [count, setCount] = useState(0);
+export const FilmTicket: FunctionComponent<FilmTicketProps> = ({ film, inBasket }) => {
+	const { posterUrl, title, genre, id } = film;
 	return (
-		<div className={styles.ticket}>
+		<Link className={styles.ticket} href={`/film/${id}`}>
 			<div className={styles.ticketCard}>
 				<Image
 					src={posterUrl}
@@ -34,15 +28,15 @@ export const FilmTicket: FunctionComponent<FilmTicketProps> = ({
 					style={{ borderRadius: '8px', objectFit: 'cover' }}
 				/>
 				<div className={styles.ticketInfo}>
-					<h3>{filmName}</h3>
-					<span className={styles.category}>{categoryName}</span>
+					<h3>{title}</h3>
+					<span className={styles.category}>{genre}</span>
 				</div>
 			</div>
-			<div className={styles.ticketBtns}>
-				<UICounter count={count} setCount={setCount} />
+			<div className={styles.ticketBtns} onClick={(e) => e.preventDefault()}>
+				<UICounter filmId={id} />
 				{inBasket && <DeleteButton onClick={() => {}} />}
 			</div>
-		</div>
+		</Link>
 	);
 };
 

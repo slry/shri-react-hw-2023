@@ -14,8 +14,9 @@ export type Film = {
 	genre: string;
 	rating: number;
 	description: string;
-	release_date: string;
+	releaseYear: string;
 	reviews: string[];
+	director: string;
 };
 
 export const FilmsContext = createContext<FilmsContextType>({
