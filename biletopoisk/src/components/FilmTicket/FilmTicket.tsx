@@ -1,22 +1,33 @@
 import Image from 'next/image';
 import styles from './FilmTicket.module.css';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useContext, useState } from 'react';
 import { UICounter } from '../ui/UICounter';
-import deleteIcon from '../../../public/delete.svg';
 import { Film } from '@/contexts/FilmsContext';
 import Link from 'next/link';
+import { UIDeleteButton } from '../ui/UIDeleteButton/UIDeleteButton';
+import { createPortal } from 'react-dom';
+import { UIModal } from '../ui/UIModal';
+import { TicketCountContext } from '@/contexts/TicketCountContext';
 
 type FilmTicketProps = {
 	film: Film;
 	inBasket?: boolean;
 };
 
-type DeleteButtonProps = {
-	onClick: () => void;
-};
-
 export const FilmTicket: FunctionComponent<FilmTicketProps> = ({ film, inBasket }) => {
 	const { posterUrl, title, genre, id } = film;
+	const [openModal, setOpenModal] = useState(false);
+	const { setFilmMap } = useContext(TicketCountContext);
+
+	const removeTicket = () => {
+		setOpenModal(false);
+		setFilmMap((prev) => {
+			const newMap = new Map(prev);
+			newMap.set(id, 0);
+			return newMap;
+		});
+	};
+
 	return (
 		<div className={styles.ticket}>
 			<Link className={styles.ticketCard} href={`/film/${id}`}>
@@ -34,16 +45,13 @@ export const FilmTicket: FunctionComponent<FilmTicketProps> = ({ film, inBasket 
 			</Link>
 			<div className={styles.ticketBtns}>
 				<UICounter filmId={id} />
-				{inBasket && <DeleteButton onClick={() => {}} />}
+				{inBasket && <UIDeleteButton onClick={() => setOpenModal(true)} />}
+				{openModal &&
+					createPortal(
+						<UIModal onClickYes={removeTicket} onClickNo={() => setOpenModal(false)} />,
+						document.querySelector('#modal-root') as HTMLElement
+					)}
 			</div>
 		</div>
-	);
-};
-
-const DeleteButton: FunctionComponent<DeleteButtonProps> = ({ onClick }) => {
-	return (
-		<button className={styles.deleteBtn} onClick={onClick}>
-			<Image src={deleteIcon} alt={'delete'} width={12.5} height={12.5} />
-		</button>
 	);
 };

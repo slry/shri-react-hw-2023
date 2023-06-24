@@ -1,0 +1,17 @@
+.yesBtn {
+	background-color: var(--btn-primary);
+	border: none;
+	color: white;
+
+	display: inline-block;
+	padding: 0.5rem 1rem;
+
+	font-size: 0.875rem;
+	font-weight: 500;
+	border-radius: 0.5rem;
+
+	text-align: center;
+	text-decoration: none;
+
+	cursor: pointer;
+}
