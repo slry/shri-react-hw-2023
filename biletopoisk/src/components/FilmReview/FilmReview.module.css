@@ -1,0 +1,28 @@
+.review {
+	display: flex;
+	align-items: flex-start;
+	width: 100%;
+	background-color: #fff;
+	border-radius: 8px;
+	padding: 1.5rem;
+	gap: 2rem;
+}
+
+.reviewInfo {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	width: 100%;
+}
+
+.reviewHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 1.25rem;
+}
+
+.reviewText {
+	font-size: 1rem;
+	line-height: 1.5rem;
+}
