@@ -1,0 +1,10 @@
+.totalTickets {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1.5rem;
+	border-radius: 8px;
+	font-weight: 600;
+	line-height: 1.25rem;
+	background-color: #fff;
+}

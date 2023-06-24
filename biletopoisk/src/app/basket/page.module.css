@@ -1,8 +1,15 @@
 .basket {
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
 	padding: 6.5rem 1.5rem 1.5rem 1.5rem;
-	gap: 1.5rem;
 	background-color: var(--bg-primary);
 	min-height: calc(100vh - 4.25rem - 3px);
+	gap: 1.5rem;
+}
+
+.basketList {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
 }
