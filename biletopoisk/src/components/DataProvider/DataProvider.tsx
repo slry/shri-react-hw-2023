@@ -1,6 +1,7 @@
 'use client';
 import { CinemasContext } from '@/contexts/CinemasContext';
 import { Film, FilmsContext, SetFilmsContext } from '@/contexts/FilmsContext';
+import { TicketCountContext } from '@/contexts/TicketCountContext';
 import { useCinemas } from '@/hooks/useCinemas';
 import { useFilms } from '@/hooks/useFilms';
 import { FunctionComponent, PropsWithChildren, useEffect, useState } from 'react';
@@ -10,6 +11,7 @@ export const DataProvider: FunctionComponent<PropsWithChildren> = ({ children })
 	const { cinemas } = useCinemas();
 
 	const [films, setFilms] = useState<Film[]>([]);
+	const [filmMap, setFilmMap] = useState<Map<string, number>>(new Map<string, number>());
 
 	useEffect(() => {
 		setFilms(initialFilms);
@@ -18,7 +20,9 @@ export const DataProvider: FunctionComponent<PropsWithChildren> = ({ children })
 	return (
 		<FilmsContext.Provider value={{ initialFilms: initialFilms, filteredFilms: films }}>
 			<SetFilmsContext.Provider value={setFilms}>
-				<CinemasContext.Provider value={cinemas}>{children}</CinemasContext.Provider>
+				<TicketCountContext.Provider value={{ filmMap, setFilmMap }}>
+					<CinemasContext.Provider value={cinemas}>{children}</CinemasContext.Provider>
+				</TicketCountContext.Provider>
 			</SetFilmsContext.Provider>
 		</FilmsContext.Provider>
 	);
