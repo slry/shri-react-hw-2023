@@ -1,17 +1,40 @@
 .navbar {
-  background-color: var(--primary);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 2rem;
-  position: fixed;
-  width: 100%;
-  z-index: 100;
+	background-color: var(--primary);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 2rem;
+	position: fixed;
+	width: 100%;
+	z-index: 100;
 }
 
 .logo {
-  font-size: 2rem;
-  font-weight: 700;
-  color: white;
-  padding: 1.5rem 0;
+	font-size: 2rem;
+	font-weight: 700;
+	color: white;
+	padding: 1.5rem 0;
+}
+
+.ticketsGroup {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.basketCount {
+	background-color: var(--btn-primary);
+	color: white;
+	border-radius: 8px;
+	width: 1.75rem;
+	height: 1.75rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+.basketCount.removed {
+	display: none;
 }
