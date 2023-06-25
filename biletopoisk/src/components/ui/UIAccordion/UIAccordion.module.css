@@ -1,0 +1,32 @@
+.accordion {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+
+	width: 100%;
+
+	background: white;
+	border-radius: 8px;
+	padding: 1.5rem;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	cursor: pointer;
+}
+
+.desc {
+	font-size: 1rem;
+	line-height: 1.25rem;
+}
+
+.desc.disabled {
+	display: none;
+}
+
+.rotated {
+	transform: rotate(180deg);
+}
