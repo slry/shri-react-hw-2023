@@ -4,4 +4,5 @@
 	gap: 1.5rem;
 	padding: 6.5rem 2rem 2rem 2rem;
 	background-color: var(--bg-primary);
+	min-height: calc(100vh - 4.25rem - 3px);
 }
