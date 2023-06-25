@@ -6,30 +6,28 @@ import classNames from 'classnames';
 import minus from '../../../../public/minus.svg';
 import plus from '../../../../public/plus.svg';
 import { TicketCountContext } from '@/contexts/TicketCountContext';
+import { useRemoveTicketHandler } from '@/hooks/useRemoveTicketHandler';
 
 type UICounterProps = {
 	filmId: string;
+	inBasket?: boolean;
 };
 
-export const UICounter: FunctionComponent<UICounterProps> = ({ filmId }) => {
-	const { setFilmMap, filmMap } = useContext(TicketCountContext);
+export const UICounter: FunctionComponent<UICounterProps> = ({ filmId, inBasket = false }) => {
+	const { filmMap } = useContext(TicketCountContext);
 	const [count, setCount] = useState(filmMap.get(filmId) || 0);
+
+	const { handler, portal, openModal } = useRemoveTicketHandler();
+
 	const handleMinus = () => {
-		if (count > 0) setCount(count - 1);
+		handler(filmId, count - 1, inBasket);
+		if (count > 1) setCount(count - 1);
 	};
 
 	const handlePlus = () => {
+		handler(filmId, count + 1, inBasket);
 		if (count < 30) setCount(count + 1);
 	};
-
-	useEffect(() => {
-		setFilmMap((prev) => {
-			const newMap = new Map(prev);
-			newMap.set(filmId, count);
-			return newMap;
-		});
-		console.log(filmMap);
-	}, [count]);
 
 	return (
 		<div className={styles.counter}>
@@ -46,6 +44,7 @@ export const UICounter: FunctionComponent<UICounterProps> = ({ filmId }) => {
 			>
 				<Image src={plus} alt={'plus'} width={9} height={9} />
 			</button>
+			{openModal && portal}
 		</div>
 	);
 };
