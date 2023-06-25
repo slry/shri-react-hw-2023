@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import styles from './UICounter.module.css';
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { FunctionComponent, useContext, useState } from 'react';
 import classNames from 'classnames';
 import minus from '../../../../public/minus.svg';
 import plus from '../../../../public/plus.svg';
